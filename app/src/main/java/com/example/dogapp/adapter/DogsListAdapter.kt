@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.dogapp.R
 import com.example.dogapp.model.DogBreed
+import com.example.dogapp.util.getProgressDrawable
+import com.example.dogapp.util.loadImage
 import com.example.dogapp.view.ListFragmentDirections
 
 class DogsListAdapter(private var dogList: ArrayList<DogBreed> = arrayListOf()):
@@ -49,7 +51,8 @@ class DogsListAdapter(private var dogList: ArrayList<DogBreed> = arrayListOf()):
 
             nome.text = breed.dogBreed
             idade.text = breed.lifeSpan
-            Glide.with(itemView).load(breed.imageUrl).into(image)
+            image.loadImage(breed.imageUrl, getProgressDrawable(image.context))
+            //Glide.with(itemView).load(breed.imageUrl).into(image)
 
             itemView.setOnClickListener{
                 val action = ListFragmentDirections.actionDetailFragment(breed.toString())

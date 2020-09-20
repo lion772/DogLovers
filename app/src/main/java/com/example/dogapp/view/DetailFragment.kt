@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.dogapp.R
+import com.example.dogapp.util.getProgressDrawable
+import com.example.dogapp.util.loadImage
 import com.example.dogapp.view.ListFragmentDirections.actionDetailFragment
 import com.example.dogapp.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -45,7 +47,7 @@ class DetailFragment : Fragment() {
             breedGroup = DetailFragmentArgs.fromBundle(it).breedGroup
             bredFor = DetailFragmentArgs.fromBundle(it).bredFor
             tv_temperament.text = DetailFragmentArgs.fromBundle(it).temperament
-            activity?.let { it1 -> Glide.with(it1).load(DetailFragmentArgs.fromBundle(it).dogImage).into(im_dog) }
+            im_dog.loadImage(DetailFragmentArgs.fromBundle(it).dogImage, getProgressDrawable(im_dog.context))
 
         }
         observeViewModel()
