@@ -1,12 +1,10 @@
 package com.example.dogapp.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,16 +17,20 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListFragment : Fragment() {
 
-    private val viewModel:MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
     private val dogList: List<DogBreed> = emptyList()
     //private lateinit var binding: FragmentViewBinding
+    //private val _binding: ResultProfileBinding? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate( R.layout.fragment_list, container, false)
-        //return binding.root
+        super.onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.fragment_list, container, false)
+        /*binding.viewmodel = viewModel
+        return binding.root*/
     }
 
 
@@ -36,8 +38,16 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.refresh()
         setAdapter()
-        observeViewModel()
 
+        refreshLayout.setOnRefreshListener {
+            refreshLayout.isRefreshing = false
+            rv_dogs.visibility = View.GONE
+            tv_error.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            viewModel.refresh()
+        }
+
+        observeViewModel()
     }
 
     private fun observeViewModel() {
@@ -75,5 +85,10 @@ class ListFragment : Fragment() {
 
         }
     }
+
+    /*override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }*/
 
 }

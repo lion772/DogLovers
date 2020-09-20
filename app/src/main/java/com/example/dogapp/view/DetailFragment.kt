@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.example.dogapp.R
 import com.example.dogapp.view.ListFragmentDirections.actionDetailFragment
 import com.example.dogapp.viewmodel.DetailViewModel
@@ -23,17 +25,14 @@ class DetailFragment : Fragment() {
     private var temperament:String? = null
     private var imageUrl:String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_detail, container, false)
+        //return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class DetailFragment : Fragment() {
             breedGroup = DetailFragmentArgs.fromBundle(it).breedGroup
             bredFor = DetailFragmentArgs.fromBundle(it).bredFor
             tv_temperament.text = DetailFragmentArgs.fromBundle(it).temperament
-            imageUrl = DetailFragmentArgs.fromBundle(it).imageUrl
+            activity?.let { it1 -> Glide.with(it1).load(DetailFragmentArgs.fromBundle(it).dogImage).into(im_dog) }
 
         }
         observeViewModel()

@@ -27,14 +27,7 @@ class MainViewModel(private val dogUseCase: DogUseCase): ViewModel() {
 
 
     fun refresh(){
-        //getDogs()
-        val listOfDogs = listOf(DogBreed(
-            "1", "Pinscher", "15", "", "xxx", "", ""),
-            DogBreed("2", "Rotweiler", "19", "", "xxx", "", "")
-        )
-        _dogs.value = listOfDogs
-        _dogsLoadError.value = ""
-        _loading.value = false
+        getDogs()
     }
 
     private fun getDogs(){

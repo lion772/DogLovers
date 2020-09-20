@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="dog"
+            type="com.example.dogapp.model.DogBreed" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -10,7 +15,7 @@
         tools:context=".view.DetailFragment">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/im_dog"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:src="@mipmap/ic_dog_icon_round"
@@ -24,11 +29,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="18sp"
-            android:text="Dog Name"
+            android:text="@{dog.dogBreed}"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintEnd_toEndOf="@+id/im_dog"
+            app:layout_constraintStart_toStartOf="@+id/im_dog"
+            app:layout_constraintTop_toBottomOf="@+id/im_dog" />
 
         <TextView
             android:id="@+id/tv_purpose"
@@ -45,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Dog Temperament"
+            android:text="@{dog.temperament}"
             app:layout_constraintEnd_toEndOf="@+id/tv_purpose"
             app:layout_constraintStart_toStartOf="@+id/tv_purpose"
             app:layout_constraintTop_toBottomOf="@+id/tv_purpose" />
@@ -55,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Dog Lifespan"
+            android:text="@{dog.lifeSpan}"
             app:layout_constraintEnd_toEndOf="@+id/tv_temperament"
             app:layout_constraintStart_toStartOf="@+id/tv_temperament"
             app:layout_constraintTop_toBottomOf="@+id/tv_temperament" />

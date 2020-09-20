@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.dogapp.R
 import com.example.dogapp.model.DogBreed
 import com.example.dogapp.view.ListFragmentDirections
@@ -48,6 +49,7 @@ class DogsListAdapter(private var dogList: ArrayList<DogBreed> = arrayListOf()):
 
             nome.text = breed.dogBreed
             idade.text = breed.lifeSpan
+            Glide.with(itemView).load(breed.imageUrl).into(image)
 
             itemView.setOnClickListener{
                 val action = ListFragmentDirections.actionDetailFragment(breed.toString())
@@ -55,6 +57,8 @@ class DogsListAdapter(private var dogList: ArrayList<DogBreed> = arrayListOf()):
                     dogBreed = breed.dogBreed
                     temperament = breed.temperament.toString()
                     lifeSpan = breed.lifeSpan
+                    dogImage = breed.imageUrl.toString()
+
                 }
                 Navigation.findNavController(it).navigate(action)
             }

@@ -34,7 +34,7 @@
             app:argType="string"
             android:defaultValue='""' />
         <argument
-            android:name="imageUrl"
+            android:name="dogImage"
             app:argType="string"
             android:defaultValue='""' />
         <argument
