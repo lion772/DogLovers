@@ -58,7 +58,7 @@ class ListFragment : Fragment() {
             }
         })
 
-        viewModel.dogsLoadError.observe(this, Observer{isErrorMessage->
+        viewModel.dogsLoadErrorMessage.observe(this, Observer{ isErrorMessage->
             isErrorMessage?.let {
                 tv_error.text = it
             }
