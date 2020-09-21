@@ -22,7 +22,11 @@ object Module {
 
 
         viewModel { DetailViewModel(useCase = get()) }
-        viewModel { MainViewModel(dogUseCase = get(), application = get()) }
+        viewModel { MainViewModel(
+            dogUseCase = get(),
+            application = get(),
+            sharedPreferences = get()
+        )}
     }
 
     val networkModule = module {

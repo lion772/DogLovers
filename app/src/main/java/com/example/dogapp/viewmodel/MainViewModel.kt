@@ -7,15 +7,16 @@ import com.example.dogapp.dogcase.DogUseCase
 import com.example.dogapp.model.DogBreed
 import com.example.dogapp.network.ApiResult
 import com.example.dogapp.repository.DogDataBase
+import com.example.dogapp.util.SharedPreferencesHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val dogUseCase: DogUseCase, application: Application) :
-    BaseViewModel(application) {
+class MainViewModel(
+    private val dogUseCase: DogUseCase,
+    application: Application,
+    private val sharedPreferences: SharedPreferencesHelper
+): BaseViewModel(application) {
 
-    /*val dogs: LiveData<DogBreed> = live {
-    emit(dogUseCase.getDogsAwait())
-}*/
 
     private val _dogs = MutableLiveData<List<DogBreed>>()
     val dogs: LiveData<List<DogBreed>> get() = _dogs
@@ -70,10 +71,8 @@ class MainViewModel(private val dogUseCase: DogUseCase, application: Application
             }
             dogsRetrieved(dogList)
         }
+        sharedPreferences.saveUpdateTime(System.nanoTime())
     }
 
-    private fun fetchDogsFromDatabase() {
-
-    }
 
 }
