@@ -6,6 +6,7 @@ import com.example.dogapp.repository.DogRepository
 import com.example.dogapp.dogcase.DogUseCase
 import com.example.dogapp.network.AuthInterceptor
 import com.example.dogapp.network.DogApi
+import com.example.dogapp.util.NotificationsHelper
 import com.example.dogapp.viewmodel.DetailViewModel
 import com.example.dogapp.viewmodel.MainViewModel
 import okhttp3.OkHttpClient
@@ -19,14 +20,10 @@ object Module {
         single { DogRepository(context = get(), dogApi = get()) }
         single { DogUseCase(dogRepository = get()) }
         single { ListFragment() }
+        single { NotificationsHelper(context = get()) }
 
-
-        viewModel { DetailViewModel(useCase = get()) }
-        viewModel { MainViewModel(
-            dogUseCase = get(),
-            application = get(),
-            sharedPreferences = get()
-        )}
+        viewModel { DetailViewModel(useCase = get(), application = get())}
+        viewModel { MainViewModel(dogUseCase = get(), application = get())}
     }
 
     val networkModule = module {

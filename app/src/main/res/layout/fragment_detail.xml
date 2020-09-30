@@ -7,18 +7,22 @@
         <variable
             name="dog"
             type="com.example.dogapp.model.DogBreed" />
+        <variable
+            name="palette"
+            type="com.example.dogapp.model.DogPallete" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@{palette.color}"
         tools:context=".view.DetailFragment">
 
         <ImageView
             android:id="@+id/im_dog"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:src="@mipmap/ic_dog_icon_round"
+            android:imageUrl="@{dog.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,8 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:text="@{dog.dogBreed}"
+            android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/im_dog"
             app:layout_constraintStart_toStartOf="@+id/im_dog"
@@ -40,7 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Dog Purpose"
+            android:text="@{dog.bredFor}"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_name"
             app:layout_constraintStart_toStartOf="@+id/tv_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />
@@ -51,6 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@{dog.temperament}"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/tv_purpose"
             app:layout_constraintStart_toStartOf="@+id/tv_purpose"
@@ -62,9 +73,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@{dog.lifeSpan}"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/tv_temperament"
             app:layout_constraintStart_toStartOf="@+id/tv_temperament"
             app:layout_constraintTop_toBottomOf="@+id/tv_temperament" />
+
+        <TextView
+            android:id="@+id/dogId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="@{String.valueOf(dog.uuid)}"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/im_dog" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,12 @@
 package com.example.dogapp.view
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogapp.R
 import com.example.dogapp.adapter.DogsListAdapter
@@ -19,9 +19,6 @@ class ListFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModel()
     private val dogList: List<DogBreed> = emptyList()
-    //private lateinit var binding: FragmentViewBinding
-    //private val _binding: ResultProfileBinding? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +26,16 @@ class ListFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_list, container, false)
-        /*binding.viewmodel = viewModel
-        return binding.root*/
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        getActionBar()?.title = "Dogs"
+    }
+
+
+    fun getActionBar(): androidx.appcompat.app.ActionBar? {
+        return (activity as MainActivity?)?.supportActionBar
     }
 
 
@@ -40,31 +45,31 @@ class ListFragment : Fragment() {
         setAdapter()
 
         refreshLayout.setOnRefreshListener {
-            refreshLayout.isRefreshing = false
             rv_dogs.visibility = View.GONE
             tv_error.visibility = View.GONE
             progressBar.visibility = View.GONE
-            viewModel.refresh()
+            viewModel.refreshByPassCache()
+            refreshLayout.isRefreshing = false
         }
 
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        viewModel.dogs.observe(this, Observer {dogs->
+        viewModel.dogs.observe(viewLifecycleOwner) { dogs->
             dogs?.let {
                 rv_dogs.visibility = View.VISIBLE
                 (rv_dogs.adapter as DogsListAdapter).updateDogList(dogs)
             }
-        })
+        }
 
-        viewModel.dogsLoadErrorMessage.observe(this, Observer{ isErrorMessage->
+        viewModel.dogsLoadErrorMessage.observe(viewLifecycleOwner) { isErrorMessage->
             isErrorMessage?.let {
                 tv_error.text = it
             }
-        })
+        }
 
-        viewModel.loading.observe(this, Observer { isLoading->
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading->
             isLoading?.let {
                 progressBar.visibility = if (it) View.VISIBLE else View.GONE
                 if (it){
@@ -72,7 +77,7 @@ class ListFragment : Fragment() {
                     tv_error.visibility = View.GONE
                 }
             }
-        })
+        }
     }
 
     private fun setAdapter(){
@@ -82,13 +87,6 @@ class ListFragment : Fragment() {
         }
         (rv_dogs.adapter as DogsListAdapter).onClickDog = { Dog ->
             Toast.makeText(activity, "Nome do cachorro: ${Dog.dogBreed}", Toast.LENGTH_SHORT).show()
-
         }
     }
-
-    /*override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }*/
-
 }

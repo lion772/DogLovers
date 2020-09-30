@@ -1,6 +1,8 @@
 package com.example.dogapp.viewmodel
 
 import android.app.Application
+import android.content.SharedPreferences
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.dogapp.dogcase.DogUseCase
@@ -11,12 +13,10 @@ import com.example.dogapp.util.SharedPreferencesHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val dogUseCase: DogUseCase,
-    application: Application,
-    private val sharedPreferences: SharedPreferencesHelper
+class MainViewModel(private val dogUseCase: DogUseCase, application: Application,
 ): BaseViewModel(application) {
 
+    private var prefHelper = SharedPreferencesHelper(getApplication())
 
     private val _dogs = MutableLiveData<List<DogBreed>>()
     val dogs: LiveData<List<DogBreed>> get() = _dogs
@@ -32,7 +32,26 @@ class MainViewModel(
 
 
     fun refresh() {
+        val updateTime = prefHelper.getUpdateTime()
+        updateTime?.let {Time ->
+            if (Time != 0L && System.nanoTime() - Time < REFRESH_TIME){
+                fetchFromDatabase()
+            } else{
+                fetchDogsFromRemote()
+            }
+        }
+    }
+
+    fun refreshByPassCache(){
         fetchDogsFromRemote()
+    }
+
+    private fun fetchFromDatabase(){
+        _loading.value = true
+        launch {
+            val dogs = DogDataBase(getApplication()).dogDao().getAllDogs()
+            dogsRetrieved(dogs)
+        }
     }
 
     private fun fetchDogsFromRemote() {
@@ -41,7 +60,6 @@ class MainViewModel(
             when (val response = dogUseCase.getDogsAwait()) {
                 is ApiResult.Success -> {
                     response.data?.let { DogsList ->
-                        _dogs.postValue(DogsList)
                         storeDogsLocally(DogsList)
                     }
                 }
@@ -56,6 +74,7 @@ class MainViewModel(
     }
 
     private fun dogsRetrieved(dogList: List<DogBreed>) {
+        _dogs.postValue(dogList)
         _dogsLoadError.postValue(false)
         _loading.postValue(false)
     }
@@ -71,7 +90,13 @@ class MainViewModel(
             }
             dogsRetrieved(dogList)
         }
-        sharedPreferences.saveUpdateTime(System.nanoTime())
+        prefHelper.saveUpdateTime(System.nanoTime())
+    }
+
+
+    companion object{
+        //That's five minutes in nanoseconds
+        private const val REFRESH_TIME = 5 * 60 * 1000 * 1000 * 1000L
     }
 
 

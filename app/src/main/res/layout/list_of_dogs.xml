@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="dog"
-            type="com.example.dogapp.model.DogBreed" />
+            type="com.example.dogapp.model.DogBreed"/>
+        <variable
+            name="listener"
+            type="com.example.dogapp.view.DogClickListener"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp">
+        android:layout_height="100dp"
+        android:onClick="@{listener::onDogClicked}">
+
+        <TextView
+            android:id="@+id/tv_dog_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@{String.valueOf(dog.uuid)}" />
+
 
         <ImageView
             android:id="@+id/iv_dog"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:imageUrl="@{dog.imageUrl}"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:layout_marginStart="4dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -33,16 +40,16 @@
                 android:id="@+id/tv_dog_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="name"
+                android:hint="Raça"
                 android:text="@{dog.dogBreed}" />
 
             <TextView
                 android:id="@+id/tv_dog_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="age"
+                android:hint="Idade"
                 android:text="@{dog.lifeSpan}"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>

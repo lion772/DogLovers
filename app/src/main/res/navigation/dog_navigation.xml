@@ -19,32 +19,8 @@
         android:name="com.example.dogapp.view.DetailFragment"
         android:label="DetailFragment" >
         <argument
-            android:name="breedId"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="dogBreed"
-            app:argType="string" />
-        <argument
-            android:name="lifeSpan"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="temperament"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="dogImage"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="bredFor"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument
-            android:name="breedGroup"
-            app:argType="string"
-            android:defaultValue='""' />
+            android:name="dogUuid"
+            app:argType="integer" />
 
     </fragment>
 

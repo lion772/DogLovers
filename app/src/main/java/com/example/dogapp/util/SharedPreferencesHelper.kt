@@ -19,7 +19,6 @@ class SharedPreferencesHelper {
                 instance = it
             }
         }
-
         private fun buildHelper(context: Context): SharedPreferencesHelper {
             pref = PreferenceManager.getDefaultSharedPreferences(context)
             return SharedPreferencesHelper()
@@ -31,6 +30,8 @@ class SharedPreferencesHelper {
             putLong(PREF_TIME, time)
         }
     }
+
+    fun getUpdateTime() = pref?.getLong(PREF_TIME, 0)
 
 
 }

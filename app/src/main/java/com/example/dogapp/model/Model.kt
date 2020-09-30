@@ -41,3 +41,5 @@ data class DogBreed(
 /*Todas as variáveis são strings e vem do Backend, toda vez que criar um dogBreed criará
    * um ID também se colocar dentro do construtor. A primary key só será instanciada pelo room
    * database quando a entidade for colocada dentro dele.*/
+
+data class DogPallete(var color: Int)
