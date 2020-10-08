@@ -9,14 +9,18 @@ import com.example.dogapp.dogcase.DogUseCase
 import com.example.dogapp.model.DogBreed
 import com.example.dogapp.network.ApiResult
 import com.example.dogapp.repository.DogDataBase
+import com.example.dogapp.util.NotificationsHelper
 import com.example.dogapp.util.SharedPreferencesHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
+import java.util.prefs.PreferenceChangeEvent
 
 class MainViewModel(private val dogUseCase: DogUseCase, application: Application,
 ): BaseViewModel(application) {
 
     private var prefHelper = SharedPreferencesHelper(getApplication())
+    private var refreshTime = 5 * 60 * 1000 * 1000 * 1000L
 
     private val _dogs = MutableLiveData<List<DogBreed>>()
     val dogs: LiveData<List<DogBreed>> get() = _dogs
@@ -32,13 +36,24 @@ class MainViewModel(private val dogUseCase: DogUseCase, application: Application
 
 
     fun refresh() {
+        checkCacheDuration()
         val updateTime = prefHelper.getUpdateTime()
         updateTime?.let {Time ->
-            if (Time != 0L && System.nanoTime() - Time < REFRESH_TIME){
+            if (Time != 0L && System.nanoTime() - Time < refreshTime){
                 fetchFromDatabase()
             } else{
                 fetchDogsFromRemote()
             }
+        }
+    }
+
+    private fun checkCacheDuration() {
+        val cachePreference = prefHelper.getCacheDuration()
+        try {
+            val cachePreferenceInt = cachePreference?.toInt() ?: FIVE_MINUTES
+            refreshTime = cachePreferenceInt.times(NANO_TO_SECONDS)
+        } catch (e:NumberFormatException){
+            e.printStackTrace()
         }
     }
 
@@ -61,6 +76,7 @@ class MainViewModel(private val dogUseCase: DogUseCase, application: Application
                 is ApiResult.Success -> {
                     response.data?.let { DogsList ->
                         storeDogsLocally(DogsList)
+                        NotificationsHelper(getApplication()).createNotification()
                     }
                 }
                 is ApiResult.Error -> {
@@ -97,6 +113,8 @@ class MainViewModel(private val dogUseCase: DogUseCase, application: Application
     companion object{
         //That's five minutes in nanoseconds
         private const val REFRESH_TIME = 5 * 60 * 1000 * 1000 * 1000L
+        private const val FIVE_MINUTES = 5 * 60
+        private const val NANO_TO_SECONDS = 1000 * 1000 * 1000L
     }
 
 

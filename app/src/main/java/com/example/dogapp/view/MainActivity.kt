@@ -25,20 +25,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_activity)
 
+        setupNavigation()
+
+    }
+
+    private fun setupNavigation() {
         val host: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.host_fragment) as NavHostFragment?
                 ?: return
 
         val navController = host.navController
-        val drawerLayout : DrawerLayout? = findViewById(R.id.drawer_layout)
+        val drawerLayout: DrawerLayout? = findViewById(R.id.drawer_layout)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.listFragment),
-            drawerLayout)
+            setOf(R.id.listFragment,
+                R.id.settingsFragment),
+            drawerLayout
+        )
 
         setupActionBar(navController, appBarConfiguration)
         setupNavigationMenu(navController)
-
     }
 
     private fun setupActionBar(navController: NavController, appBarConfig: AppBarConfiguration){

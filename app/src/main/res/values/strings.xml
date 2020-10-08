@@ -6,4 +6,6 @@
     <string name="image_contentDescription">Name of the Dog Breed</string>
     <string name="nav_my_profile">My Dog Details</string>
     <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="reload_dogs">Reload Dogs</string>
 </resources>

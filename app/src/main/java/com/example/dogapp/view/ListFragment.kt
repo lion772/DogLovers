@@ -2,11 +2,10 @@ package com.example.dogapp.view
 
 import android.app.ActionBar
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dogapp.R
 import com.example.dogapp.adapter.DogsListAdapter
@@ -24,6 +23,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
@@ -89,4 +89,23 @@ class ListFragment : Fragment() {
             Toast.makeText(activity, "Nome do cachorro: ${Dog.dogBreed}", Toast.LENGTH_SHORT).show()
         }
     }
+
+   /* override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.activity_main_drawer, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ListFragmentDirections.actionSettings())
+                }
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }*/
+
 }

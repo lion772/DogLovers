@@ -5,12 +5,12 @@
         <item
             android:id="@id/listFragment"
             android:icon="@drawable/ic_nav_user"
-            android:title="@string/nav_my_profile" />
+            android:title="@string/reload_dogs" />
 
         <item
-            android:id="@id/detailFragment"
+            android:id="@id/action_settings"
             android:icon="@drawable/ic_nav_sign_out"
-            android:title="@string/about" />
+            android:title="@string/settings" />
 
     </group>
 
